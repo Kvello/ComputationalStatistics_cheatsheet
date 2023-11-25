@@ -1,0 +1,240 @@
+\documentclass[10pt]{article} % Use extarticle class for smaller font sizes
+\usepackage[landscape, a4paper, margin=0.1cm]{geometry}
+\usepackage{multicol}
+\usepackage{amsmath}
+\usepackage[utf8]{inputenc}
+\setlength{\columnseprule}{0.5pt}
+\begin{document}
+\begin{multicols}{4}
+    \vbox{
+        \begin{flushleft}
+            {\Large \textbf{ST4231 Cheat-sheet}}
+            \vspace{0.1cm}
+            \hrule
+            \vspace{0.1cm}
+            \textbf{Basics relationships}
+            \begin{align*}
+                \text{Var}[X]   & = E[(X-E[X])^2]       \\
+                                & = E[X^2]-E[X]^2       \\
+                \text{Cov}[X,Y] & = E[(X-E[X])(Y-E[Y])] \\
+                                & = E[XY]-E[X]E[Y]      \\
+            \end{align*}
+            \hrule
+            \textbf{Inversion method}
+            \begin{equation*}
+                T(X) = F^{(-1)}(U) \Rightarrow T(X) \sim f(x)
+            \end{equation*}
+            \textbf{Generalized inverse}
+            \begin{equation*}
+                F^{(-1)}(U) = \inf\{z \in \mathcal{R} :F(z)\geq u\}
+            \end{equation*}
+            \hrule
+            \vspace{0.1cm}
+            \textbf{Change-of-variable formula}\\
+            Suppose \(g(x)\) is one-to-one and
+            \(\mathcal{C}\), \(X \sim f_X(x)\),
+            \(Y = g(X)\), then
+            \begin{equation*}
+                f_Y(y) = f_X(g^{-1}(y))\left|\frac{dg^{-1}(y)}{dy}\right|
+            \end{equation*}
+            \hrule
+            \vspace{0.1cm}
+            \textbf{Central Limit Theorem}
+            \(E[X]<\infty\) then the follwing convergence
+            in distribution holds
+            \begin{equation*}
+                \lim_{n\to \infty}\sqrt{n}(\bar{X_n}-\mu) = \mathcal{N}(0,\sigma^2)
+            \end{equation*}
+            \hrule
+            \vspace{0.1cm}
+            \textbf{Fundamantal theorem of sampling}\\
+            If \(X\) is a random variable with pdf \(f(x)\), then
+            simulating \(X\) is equivalent to simulating a pair of
+            variables \((U,X)\) jointly from
+            \begin{equation*}
+                (X,U) \sim \text{Uniform}\{(x,u): 0 < u < f(x)\}
+            \end{equation*}
+            \hrule
+            \vspace{0.1cm}
+            \textbf{Rejection Sampling Algorithm}
+            Suppose \(f(x)= c \tilde{f(x)}\) where \(\tilde{f(x)}\) is
+            known and \(c\) is not. \(\tilde{f}(x)\leq \tilde{M}g(x)\; \forall x\)
+            \begin{enumerate}
+                \item Generate \(Y\sim G\)
+                \item Generate \(U \sim \text{Uniform}[0,1]\)
+                \item If \(U \leq \frac{\tilde{f}(Y)}{\tilde{M}g(Y)}\), then accept: set \(X=Y\)
+                      Otherwise reject: return to step \((1)\)
+            \end{enumerate}
+        \end{flushleft}
+    }
+    \columnbreak
+    \vbox{
+        {\large\textbf{Basic distributions}}\\
+        \textbf{Uniform}
+        \begin{align*}
+            f(x;a,b) & = \begin{cases}
+                             \frac{1}{b-a}, \; \text{if} <\leq x \leq b \\
+                             0 \; \text{otherwise}
+                         \end{cases} \\
+            E[X]     & = \frac{a+b}{2}\;Var[X] = \frac{(b-a)^2}{12}
+        \end{align*}
+        \textbf{Binomial}
+        \begin{align*}
+            f(x;n,p) & = {n \choose x} p^{x} (1-p)^{n-x}\; x=0,1\dots,n \\
+            E[X]     & =np\; Var[X] = np(1-p)
+        \end{align*}
+        \textbf{Geometric}
+        \begin{align*}
+            f(x;p) & = p(1-p)^{x-1} \\
+            E[X] = \frac{1}{p}\;Var[X] = \frac{1-p}{p^2}
+        \end{align*}
+        \textbf{\(\mathcal{X}^2\) distribution}
+    }
+    \columnbreak
+    \vbox{
+        \begin{flushleft}
+
+            \textbf{Box-Muller v1}
+            \begin{enumerate}
+                \item \(U_1,U_2 \overset{\text{i.i.d.}}{\sim} \text{Uniform}(0,1)\)
+                \item \(R = \sqrt{-\ln(U_1)}\), \(\theta = 2\pi U_2\)
+                \item \(X = R\cos(\theta)\), \(Y = R\sin(\theta)\)
+            \end{enumerate}
+            \textbf{Box-Muller v2}
+            \begin{enumerate}
+                \item \(U_1,U_2 \overset{\text{i.i.d.}}{\sim} \text{Uniform}(0,1)\)
+                \item \(V_1 = 2U_1-1\),\(V_2 = 2U_2-1\),\(S=V_1^2+V_2^2\)
+                \item If \(S>1\)return to step 1(Rejection sampling)
+                \item Return \(X=\sqrt{-2\ln(S)/S} \cdot V_1\), \\
+                      \(Y=\sqrt{-2\ln(S)/S} \cdot V_2\)
+            \end{enumerate}
+            \textbf{General Multivariate Normal}\\
+            To generate d-dimentional normal with mean \(\mu\) and covariance matrix
+            \(\Sigma\):
+            \begin{enumerate}
+                \item Generate \(\mathbf{Z} = (Z_1,\dots,Z_d)^{\top}\)
+                \item Set \(X=\mathbf{LZ} + \boldsymbol{\mu}\)
+            \end{enumerate}
+            Where \(\mathbf{L}\) satisfies \(\mathbf{LL^{\top}=\Sigma}\)(Cholesky)
+            \hrule
+            \vspace{0.1cm}
+            \textbf{Simple sampling}\\
+            Estimate \(\theta = E[\phi(X)]\)
+            {\small
+                    \begin{align*}
+                        \hat{\theta}   & = \frac{1}{n}\sum_{i=1}^{n}\phi(X_i),\;\text{Var}(\theta) = \frac{\overbrace{\int_{\mathcal{S}}\phi(x)f(x)dx-\theta^2}^{\text{asymp. variance}}}{n} \\
+                        \hat{\sigma^2} & = \frac{1}{n} \sum_{i=1}^{n}\phi^2(X_i)-\hat{\theta}^2, \;\hat{\theta} \pm 1.96 \frac{\hat{\sigma^2}}{\sqrt{n}}
+                    \end{align*}
+                }
+            \hrule
+            \vspace{0.1cm}
+            \textbf{Importance sampling}\\
+            {\small
+            \begin{align*}
+                \hat{\theta}_{IS}  & = \frac{1}{n}\sum_{i=1}^{n}\frac{\phi(X_i)f(Y_i)}{g(Y_i)}                                                                                \\
+                \text{Var}(\theta) & = \frac{\overbrace{\int_{\mathcal{S}}\frac{\phi^2(x)f^2(x)}{g(x)}dx - \theta^2}^{\text{asymp. variance}}}{n}                             \\
+                \hat{\sigma^2}     & = \frac{1}{n} \sum_{i=1}^{n}\phi^2(X_i)\frac{f^2(X_i)}{g^2(X_i)}-\hat{\theta}^2, \;\hat{\theta} \pm 1.96 \frac{\hat{\sigma^2}}{\sqrt{n}}
+            \end{align*}
+            }\\
+            \textit{Optimal }\(g(x)\): \(g(x) \propto |\phi(x)|\cdot f(x)\)
+        \end{flushleft}
+    }
+    \columnbreak
+    \vbox{
+        \begin{flushleft}
+            \textbf{Self-normalized Importance Sampling}\\
+            \(\tilde{w}(x) = \frac{\tilde{f}(x)}{\tilde{g}(x)}\; \forall x \in \mathcal{S}\),
+            \(\hat{\theta}_{SIS} = \frac{\sum_{i=1}^n\phi(X_i)\tilde{w}(X_i)}{\sum_{i}^n\tilde{w}(X_i)}\)\\
+            \(E_f\left[\hat{\theta}_{SIS}\right] \not= \theta, \; \text{bias}(\hat{\theta}_{SIS}) = \mathcal{O}(1/n)\),
+            \(\text{fluctuation}(\hat{\theta}_{SIS}) = \mathcal{O}(1/\sqrt{n})\)\\
+            \(\frac{\hat{\sigma}_{SIS}^2}{n} = \frac{\sum_{i=1}^n\left\{\tilde{w}^2(X_i)\left[\phi(X_i)-\hat{\theta}_{SIS}\right]^2\right\}}{\left\{\sum_{i=1}^n\tilde{w}(X_i)\right\}^2}\)\\
+            95\% asymp. conf. interval: \(\hat{\theta}_{SIS} \pm 1.96\sqrt{\frac{\hat{\sigma}^2_{SIS}}{n}}\)
+            \hrule
+            \vspace{0.1cm}
+            \textbf{Control Variates}\\
+            Suppose we know:
+            \begin{enumerate}
+                \item an unbiased estimator \(\hat{h}\) of \(E[h(X)]\)
+                \item \(E_f[h(X)]\) and \(\text{Var}[\hat{h}]\)
+                \item the value or sign of \(\text{Cov}(\hat{theta},\hat{h})\)
+            \end{enumerate}
+            Let \(\tilde{\theta} = \hat{\theta} + \beta\left\{\hat{h} - E_f[h(X)]\right\}\), then
+            \(\text{Var}(\tilde{\theta}) = \text{Var}(\hat{\theta}) + \beta^2 \text{Var}(\hat{h}) + 2 \beta\text{Cov}(\hat{\theta},\hat{h})\)\\
+            which is minimized when \(\beta = -\frac{\text{Cov}(\hat{\theta},\hat{h})}{\text{Var}(\hat{h})}\)\\
+            The corresponding smallest value is  \(\text{Var}(\tilde{\theta}) = (1-\rho^2_{\hat{\theta},\hat{h}}), \; \rho^2_{\hat{\theta},\hat{h}} = \text{Cor}(\hat{\theta},\hat{h})\)
+            \hrule
+            \vspace{0.1cm}
+            \textbf{Antithetic Variates Method}\\
+            If \(g(x)\) is a monotone function then\\
+            \([g(u_1)-g(u_2)][g(1-u_1)-g(1-u_2)] \leq 0\)
+            From this we can show that if \(X = F^{-1}(U_1),\;X' = F^{-1}(1-U_1)\)\\
+            Then \(2\text{Cov}(X,X') \leq 0\) which in turn implies that
+            \(\text{Var}\left(\frac{X+X'}{2}\right) \leq \frac{1}{2}\text{Var}(X)\)
+            \hrule
+            \vspace{0.1cm}
+            \textbf{Rao-Blackwellization}
+            \hrule
+            \vspace{0.1cm}
+            \textbf{EM-Algorithm}
+            For latent variable model:\\
+            \textbf{E}-step:\\
+            \(Q(\theta|\theta^{(k)}) = E_{Z}[l^{C}(\theta;Y,Z)|Y,\theta^{(k)}]\)\\
+            \textbf{M}-step:\\
+            \(\theta^{(k+1)} = \arg \max_{\theta \in \Theta}Q(\theta|\theta^{(k)})\)\\
+            Mixture of normals:
+            {\tiny
+            \begin{align*}
+                \alpha_i^{(k,1)} & = \frac{p^{(k)}e^{-\frac{(y_i-\mu_1)^2}{2\sigma^2}}}
+                {p^{(k)}e^{-\frac{(y_i-\mu_1)^2}{2\sigma^2}} + (1-p^{(k)})e^{-\frac{(y_i-\mu_2)^2}{2\sigma^2}}} \\
+                \alpha_i^{(k,2)} & = 1- \alpha_i^{(k,1)}
+            \end{align*}
+            }
+        \end{flushleft}
+    }
+    \columnbreak
+    \vbox{
+        \begin{flushleft}
+            \textbf{MCMC-equations}
+            \vspace{0.1cm}
+            \hrule
+            \vspace{0.1cm}
+            \textbf{Gibbs-sampler}
+            \vspace{0.1cm}
+            \hrule
+            \vspace{0.1cm}
+            \textbf{Importance sampling}
+            \vspace{0.1cm}
+            \hrule
+            \vspace{0.1cm}
+            \textbf{Rejection sampling}
+            \vspace{0.1cm}
+            \hrule
+            \vspace{0.1cm}
+            {\large \textbf{Markov chains}}
+            A Markov chain is \textit{irreducible} if all states consist
+            of a single class. Meaning all states are accessible
+            from each other.\\
+            An \textit{irreducible}Markov chain \(X\) is recurrent if
+            \(P[\tau_{ii} < \infty] = 1\) for all states,
+            where \(\tau_ii = \min\{t > 0: X_t =i| X_0 = i\}\)\\
+            An \textit{irreducible} \textit{recurrent} Markov chain \(X\)
+            is \textit{positive recurrent} if \(E[\tau_{ii}] < \infty\)
+            for all states. Otherwise it is \textit{null recurrent}.\\
+            If a Markov chain only has a finite number of states, and
+            is \textit{irreducible} then it must be positive recurrent.\\
+            \textit{positive reccurent} \(\equiv\) there exists stationary
+            pmf \(\boldsymbol{\pi}(\cdot)\)\\
+            An \textit{}
+            \hrule
+            \vspace{0.1cm}
+
+        \end{flushleft}
+    }
+    \columnbreak
+    \vbox{
+        \begin{flushleft}
+
+        \end{flushleft}
+    }
+\end{multicols}
+\end{document}
