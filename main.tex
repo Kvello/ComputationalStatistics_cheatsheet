@@ -2,6 +2,7 @@
 \usepackage[a4paper, landscape, margin=0.1cm]{geometry}
 \usepackage{multicol}
 \usepackage{amsmath}
+\usepackage{amssymb}
 \usepackage[utf8]{inputenc}
 \setlength{\columnseprule}{0.5pt}
 \begin{document}
@@ -81,7 +82,7 @@
     \)\\
     {\small \textbf{Binomial}}\\
     \(
-    f(x;n,p) = {n \choose x} p^{x} (1-p)^{n-x}\; x=0,1\dots,n \)\\
+    f(x;n,p) = \binom{n}{x} p^{x} (1-p)^{n-x}\; x=0,1\dots,n \)\\
     \(
     E[X] =np\; Var[X] = np(1-p)
     \)\\
@@ -101,12 +102,12 @@
     \)\\
     {\small \textbf{Hypergeometric}}\\
     \(
-    f(x;N,n,k) = \frac{{k \choose x}{N-k \choose n-x}}{{N \choose n}},\; x = 0,1,\dots \min(n,k)\\
+    f(x;N,n,k) = \frac{\binom{k}{x}}{\binom{N}{n}},\; x = 0,1,\dots \min(n,k)\\
     E[X] = \frac{nk}{N},\; \text{Var}[X] = \frac{N-n}{N-1}\frac{nk}{N}(1-\frac{k}{N})
     \)\\
     {\small \textbf{Negative Binomial}}\\
     \(
-    f(x;k,p) = {x-1 \choose k-1}p^k(1-p)^{x-k},\; x = 1,2,\dots
+    f(x;k,p) = \binom{x-1}{k-1}p^k(1-p)^{x-k},\; x = 1,2,\dots
     \)\\
     \(
     E[X] = \frac{k}{p},\; Var[X] = \frac{1-p}{p^2}k
@@ -211,18 +212,18 @@
             {\small
                     \begin{align*}
                         \hat{\theta}   & = \frac{1}{n}\sum_{i=1}^{n}\phi(X_i),\;\text{Var}(\theta) = \frac{\overbrace{\int_{\mathcal{S}}\phi(x)f(x)dx-\theta^2}^{\text{asymp. variance}}}{n} \\
-                        \hat{\sigma^2} & = \frac{1}{n} \sum_{i=1}^{n}\phi^2(X_i)-\hat{\theta}^2, \;\hat{\theta} \pm 1.96 \frac{\hat{\sigma^2}}{\sqrt{n}}
+                        \hat{\sigma^2} & = \frac{1}{n} \sum_{i=1}^{n}\phi^2(X_i)-\hat{\theta}^2, \;\hat{\theta} \pm 1.96 \sqrt{\frac{\hat{\sigma^2}}{n}}
                     \end{align*}
                 }
             \hrule
             \vspace{0.1cm}
-            \textbf{Importance sampling}\\
+            \textbf{Importance sampling}
             {\small
-            \begin{align*}
-                \hat{\theta}_{IS}  & = \frac{1}{n}\sum_{i=1}^{n}\frac{\phi(X_i)f(Y_i)}{g(Y_i)}                                                                                \\
-                \text{Var}(\theta) & = \frac{\overbrace{\int_{\mathcal{S}}\frac{\phi^2(x)f^2(x)}{g(x)}dx - \theta^2}^{\text{asymp. variance}}}{n}                             \\
-                \hat{\sigma^2}     & = \frac{1}{n} \sum_{i=1}^{n}\phi^2(X_i)\frac{f^2(X_i)}{g^2(X_i)}-\hat{\theta}^2, \;\hat{\theta} \pm 1.96 \frac{\hat{\sigma^2}}{\sqrt{n}}
-            \end{align*}
+                \begin{align*}
+                    \hat{\theta}_{IS}  & = \frac{1}{n}\sum_{i=1}^{n}\frac{\phi(X_i)f(Y_i)}{g(Y_i)}                                                                                \\
+                    \text{Var}(\theta) & = \frac{\overbrace{\int_{\mathcal{S}}\frac{\phi^2(x)f^2(x)}{g(x)}dx - \theta^2}^{\text{asymp. variance}}}{n}                             \\
+                    \hat{\sigma^2}     & = \frac{1}{n} \sum_{i=1}^{n}\phi^2(X_i)\frac{f^2(X_i)}{g^2(X_i)}-\hat{\theta}^2, \;\hat{\theta} \pm 1.96 \sqrt{\frac{\hat{\sigma^2}}{n}}
+                \end{align*}
             }\\
             \textit{Optimal }\(g(x)\): \(g(x) \propto |\phi(x)|\cdot f(x)\)
         \end{flushleft}
@@ -442,8 +443,8 @@
     \columnbreak
     \vbox{
         \begin{flushleft}
-            {\large \textbf{Misc.}}\\
-            \textbf{Divergence/Convergence of integrals of rational functions}\\
+            {\large \textbf{Miscellaneous}}\\
+            \textbf{Divergence/convergence of integrals of rational functions}\\
             \(
             \int_1^\infty \frac{1}{x^p} = \begin{cases}
                 < \infty ,\; p>1 \\
@@ -455,13 +456,82 @@
                 < \infty ,\; p<1 \\
                 \to \infty ,\; p \geq 1
             \end{cases}
-            \)\\
+            \)
+            \vspace{0.1cm}
+            \hrule
+            \vspace{0.1cm}
             \textbf{Convex function}\\
+            \(
+            \text{A function } f: \mathbb{R}^n \to \mathbb{R} \text{ is convex if, for all } x, y \in \mathbb{R}^n \text{ and for all } \lambda \in [0, 1],
+            f(\lambda x + (1 - \lambda)y) \leq \lambda f(x) + (1 - \lambda)f(y).
+            \)
+            For a function \(\mathbb{R} \to \mathbb{R}\) this is equivalent to the second derivative being non-negative.
+            \vspace{0.1cm}
+            \hrule
+            \vspace{0.1cm}
+            {\large \textbf{Inequalities}}\\
+            \textbf{Jensen's inequality}\\
+            Assume \(f\) is convex and \(X\) is a random variable, then
+            \(
+            E[f(X)] \geq f(E[X])
+            \)\\
+            \textbf{Cauchy-Schwarz inequality}\\
+            \(
+            E[XY]^2 \leq E[X^2]E[Y^2]
+            \)\\
+            \textbf{Chebyshev's inequality}\\
+            Let \(X\) be a random variable with mean \(\mu\) and variance \(\sigma^2\), then
+            \(
+            P(|X-\mu| \geq k\sigma) \leq \frac{1}{k^2}
+            \)\\
+            \textbf{Markov's inequality}\\
+            Let \(X\) be a non-negative random variable, then
+            \(
+            P(X \geq k) \leq \frac{E[X]}{k}
+            \)\\
+            % \textbf{Hölder's inequality}\\
+            % Let \(p,q > 1\) such that \(\frac{1}{p} + \frac{1}{q} = 1\), then
+            % \(
+            % E[|XY|] \leq (E[|X|^p])^{1/p}(E[|Y|^q])^{1/q}
+            % \)\\
+            % \textbf{Minkowski's inequality}\\
+            % Let \(p \geq 1\), then
+            % \(
+            % (E[|X+Y|^p])^{1/p} \leq (E[|X|^p])^{1/p} + (E[|Y|^p])^{1/p}
+            % \)\\
+            \vspace{0.1cm}
+            \hrule
+            \vspace{0.1cm}
+            %\textbf{Chebyshev's inequality}\\
+            %\(
+            %P(|X-\mu| \geq k\sigma) \leq \frac{1}{k^2}
+            %\)\\
             \textbf{Some integrals}\\
             \(
-            \int
+            \int \sin(x)\cos(x)dx = \frac{1}{2}\sin^2(x)
+            \)\\
+            \(
+            \int \sin^2(x)dx = \frac{1}{2}x - \frac{1}{4}\sin(2x)
+            \)\\
+            \(
+            \int \frac{1}{x^2+1} dx = \arctan(x)
             \)
-            \textbf{Trigonometric identeties}\\
+            \vspace{0.1cm}
+            \hrule
+            \vspace{0.1cm}
+
+            \textbf{Trigonometric identities}
+            \begin{align*}
+                \sin(\alpha +\beta) & = \sin(\alpha)\sin(\beta) + \cos(\alpha)\sin(\beta) \\
+                \cos(\alpha+\beta)  & = \cos(\alpha)\cos(\beta) - \sin(\alpha)\sin(\beta) \\
+                i \sin \theta       & = \sinh {i\theta}                                   \\
+                \cos \theta         & = \cosh {i\theta}                                   \\
+                \cosh x             & = (e^x+e^{-x})/2                                    \\
+                \sinh x             & = (e^x-e^{-x})/2                                    \\
+                \sin^2 x            & = (1-\cos{2x})/2                                    \\
+                \cos^2 x            & = (1+\cos{2x})/2
+            \end{align*}
+
         \end{flushleft}
     }
 \end{multicols}
