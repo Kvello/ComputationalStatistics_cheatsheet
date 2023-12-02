@@ -1,5 +1,5 @@
 \documentclass[10pt]{article} % Use extarticle class for smaller font sizes
-\usepackage[a4paper, landscape, margin=0.2cm]{geometry}
+\usepackage[a4paper, landscape, margin=0.1cm]{geometry}
 \usepackage{enumitem} % Include the enumitem package
 \setlist[enumerate]{itemsep=-0.5ex}
 \usepackage{multicol}
@@ -15,7 +15,7 @@
 \begin{document}
 \begin{multicols}{4}
     \vbox{
-        \begin{flushleft}
+        \begin{center}
             {\Large \textbf{ST4231 Cheat-sheet}}
             \vspace{0.1cm}
             \hrule
@@ -48,7 +48,7 @@
             \]
             \hrule
             \vspace{0.1cm}
-            \textbf{Central Limit Theorem}
+            \textbf{Central Limit Theorem}\\
             \(E[X]<\infty\) then the follwing convergence
             in distribution holds
             \begin{equation*}
@@ -65,7 +65,7 @@
             \end{equation*}
             \hrule
             \vspace{0.1cm}
-            \textbf{Rejection Sampling Algorithm}
+            \textbf{Rejection Sampling Algorithm}\\
             Suppose \(f(x)= c \tilde{f(x)}\) where \(\tilde{f(x)}\) is
             known and \(c\) is not. \(\tilde{f}(x)\leq \tilde{M}g(x)\; \forall x\)
             \begin{enumerate}
@@ -74,7 +74,7 @@
                 \item If \(U \leq \frac{\tilde{f}(Y)}{\tilde{M}g(Y)}\), then accept: set \(X=Y\)
                       Otherwise reject: return to step \((1)\)
             \end{enumerate}
-        \end{flushleft}
+        \end{center}
     }
     \columnbreak
     \vbox{
@@ -96,10 +96,7 @@
     \)\\
     {\small \textbf{Geometric}}\\
     \(
-    f(x;p)  = p(1-p)^{x-1}
-    \) \\
-    \(
-    E[X] = \frac{1}{p}\;Var[X] = \frac{1-p}{p^2}
+    f(x;p)  = p(1-p)^{x-1},\; E[X] = \frac{1}{p}\;Var[X] = \frac{1-p}{p^2}
     \)\\
     {\small \textbf{Poisson}}\\
     \(
@@ -128,10 +125,7 @@
     \)\\
     {\small \textbf{Exponential distribution}}\\
     \(
-    \lambda e^{-\lambda x},\; x\geq 0
-    \)\\
-    \(
-    E[X] = \frac{1}{\lambda},\; \text{Var}[\frac{1}{\lambda^2}]
+    \lambda e^{-\lambda x},\; x\geq 0,\; E[X] = \frac{1}{\lambda},\; \text{Var}[\frac{1}{\lambda^2}]
     \)\\
     {\small \textbf{\(\mathcal{X}^2\) distribution}}\\
     {\small
@@ -301,8 +295,11 @@
     }
     \columnbreak
     \vbox{
+        \begin{center}
+            \textbf{Metropolis-Hastings Algorithm}
+            \vspace{-0.2cm}
+        \end{center}
         \begin{flushleft}
-            \textbf{Metropolis-Hastings Algorithm}\\
             \begin{enumerate}
                 \item Set \(\theta^{(0)}\) to some initial value
                 \item \textbf{for} \(t=0\) to \(T-1\) \textbf{do}:
@@ -315,7 +312,13 @@
                 \item If \(U \leq \alpha(\theta^*,\theta^{(t)})\) then \(\theta^{(t+1)} = \theta^*\)
                 \item Otherwise \(\theta^{(t+1)} = \theta^{(t)}\)
             \end{enumerate}
+        \end{flushleft}
+        \begin{center}
+            \vspace{-0.2cm}
             \textbf{Tuning} MCMC algorithms:
+            \vspace{-0.2cm}
+        \end{center}
+        \begin{flushleft}
             \begin{enumerate}
                 \item Better to transform all parameters in \(\theta\) such that they lie in \(\mathbb{R}\) unbounded if using Normal transition kernel.
                 \item We can first maximize the log posterior \(\log \pi(\theta|Y)\), if possible, and find the maximizer \(\hat{\theta}\). Use \(\hat{\theta}\) as \(\theta^{(0)}\).
@@ -324,12 +327,17 @@
                 \item Burn-in: discard the first \(B\) iterations
                 \item Thinning: keep every \(T\)th iteration
             \end{enumerate}
+        \end{flushleft}
 
-
-            \vspace{0.1cm}
-            \hrule
-            \vspace{0.1cm}
-            \textbf{Gibbs-sampler}\\
+        \vspace{0.1cm}
+        \hrule
+        \vspace{0.1cm}
+        \begin{center}
+            \vspace{-0.2cm}
+            \textbf{Gibbs-sampler}
+            \vspace{-0.2cm}
+        \end{center}
+        \begin{flushleft}
             \begin{enumerate}
                 \item Initialize \(\theta^{(0)} = (\theta_1^{(0)},\dots,\theta_d^{(0)})^{\top}\)
                 \item \textbf{for} \(t=0\) to \(T-1\) \textbf{do}:
